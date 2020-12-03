@@ -1,0 +1,85 @@
+body{
+    margin: 0;
+    background-color: lightpink;
+}
+.header {
+    position: absolute;
+    top:0px;
+    min-height: auto;
+    display: flex;
+    background-color: lightpink;
+    flex-direction: row;
+}
+.header-logo{
+    width: 5%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+.header-title{
+    text-align: center;
+}
+#container{
+    background-color: black;
+    border-radius: 30px;
+    position: absolute;
+    width: 35%;
+    height: 70%;
+    margin: auto;
+    top: 0;
+    left:0;
+    bottom: 0;
+    right: 0;
+}
+#container .title{
+    color: lightpink;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-family: "Adobe Caslon Pro";
+    font-weight: bold;
+}
+#container form,#to-register{
+    width: 80%;
+    margin: 20px auto;
+}
+#container .input{
+    height: 40px;
+    color: azure;
+    width: 100%;
+    margin-bottom: 40px;
+}
+#container form input[type="text"],#container form input[type="password"]{
+    width: 88%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: azure;
+    padding-left: 45px;
+}
+#container .user{
+    background: url("../pics/user.svg") no-repeat center left;
+    background-size: 30px;
+    background-position: 5px;
+}
+#container .password{
+    background: url("../pics/lock.svg") no-repeat center left;
+    background-size: 30px;
+    background-position: 5px;
+}
+#container .check-button{
+    border-radius: 10px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #ffb6c1;
+    text-align: center;
+    color: azure;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+.footer{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+}
