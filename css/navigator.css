@@ -1,0 +1,58 @@
+body{
+    margin: 0;
+    background-color: #ffdada;
+}
+#header{
+    background-color: lightpink;
+    position: absolute;
+    display: flex;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    height: 8%;
+}
+#nav{
+    margin-right: 40%;
+}
+#nav ul{
+    list-style-type: none;
+    overflow: hidden;
+    margin: 0 0;
+    height: 100%;
+}
+#nav ul li{
+    float: left;
+    height: 100%;
+}
+#nav ul li a:link,#nav a:visited{
+    display: block;
+    width: 120px;
+    padding: 10px;
+    font-size: 25px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+#nav a:hover,#nav a:active{
+    background-color: black;
+}
+#to-login{
+    padding: 0;
+    width: 80px;
+    height: 35px;
+    line-height: 35px;
+    margin: auto;
+    background-color: black;
+    border-radius: 5px;
+    text-align: center;
+}
+#to-login a{
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+}
+.footer{
+    width: 100%;
+    text-align: center;
+}

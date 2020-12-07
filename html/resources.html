@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resources</title>
+    <link rel="stylesheet" type="text/css" href="../css/navigator.css">
+    <style>
+        .title{
+            position:relative;
+            margin-top: 5%;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: black;
+            color: lightpink;
+            font-size: 25px;
+            text-align: center;
+        }
+        #picBox{
+            margin-top: 2%;
+            position: relative;
+            width: 80%;
+            margin-left:auto;
+            margin-right: auto;
+            column-count: 3;
+            column-gap: 20px;
+        }
+        #picBox .pic{
+            margin-bottom: 20px;
+        }
+        #picBox .pic img{
+            width: 90%;
+        }
+        #videoBox,#audioBox{
+            margin-top: 2%;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #videoBox{
+            column-count: 3;
+            column-gap: 20px;
+        }
+        #videoBox .video {
+            width: 400px;
+            height: 300px;
+        }
+        #audioBox .audio{
+            display: flex;
+            margin-bottom: 20px;
+        }
+        #audioBox .audio .audio-title{
+            line-height: 54px;
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="header">
+    <img src="../pics/logo.png" style="height: 80%; margin: 5px 10px 5px">
+    <h1 style="margin-top: auto;margin-bottom:auto;font-family: 'Adobe Caslon Pro'">AFA粉丝集合站</h1>
+    <div id="nav">
+        <ul>
+            <li><a href="home.html">首页</a></li>
+            <li><a href="resources.html">资源</a></li>
+            <li><a href="#">讨论区</a></li>
+        </ul>
+    </div>
+    <div id="to-login">
+        <a href="login.html">登 录</a>
+    </div>
+</div>
+<div class="title">
+    图片
+</div>
+<div id="picBox">
+    <div class="pic"><img src="../resource/pics/01.jpg"></div>
+    <div class="pic"><img src="../resource/pics/02.jpg"></div>
+    <div class="pic"><img src="../resource/pics/03.jpg"></div>
+    <div class="pic"><img src="../resource/pics/04.jpg"></div>
+    <div class="pic"><img></div>
+</div>
+<div class="title">
+    视频
+</div>
+<div id="videoBox">
+    <div class="video">
+        <video width="400" height="200" controls>
+            <source src="../resource/video/34+35%20mv.mp4" type="video/mp4">
+        </video>
+        <div style="text-align: center">34+35 MV首播</div>
+    </div>
+    <div class="video">
+        <video width="400" height="200" controls>
+            <source src="../resource/video/oh!santa.mp4" type="video/mp4">
+        </video>
+        <div style="text-align: center">oh!Santa MV首播</div>
+    </div>
+    <div class="video">
+        <video width="400" height="200" controls>
+            <source src="../resource/video/Positions%20中英字幕mv.mp4" type="video/mp4">
+        </video>
+        <div style="text-align: center">Positions 中英字幕MV首播</div>
+    </div>
+</div>
+<div class="title">
+    音频
+</div>
+<div id="audioBox">
+    <div class="audio">
+        <audio controls>
+            <source src="../resource/audio/shut%20up(Explicit).mp3" type="audio/mpeg">
+        </audio>
+        <div class="audio-title"> shut up(Explicit) </div>
+    </div>
+    <div class="audio">
+        <audio controls>
+            <source src="../resource/audio/34+35(Explicit).mp3" type="audio/mpeg">
+        </audio>
+        <div class="audio-title"> 34+35(Explicit) </div>
+    </div>
+</div>
+<div class="footer">
+    Copyright &copy;littlebowlnju
+</div>
+</body>
+</html>
