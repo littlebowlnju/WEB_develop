@@ -25,6 +25,7 @@ body{
     height: 100%;
 }
 #nav ul li a:link,#nav a:visited{
+    height: 100%;
     display: block;
     width: 120px;
     padding: 10px;

@@ -27,12 +27,8 @@ body{
     border-radius: 30px;
     position: absolute;
     width: 35%;
-    height: 70%;
-    margin: auto;
-    top: 0;
-    left:0;
-    bottom: 0;
-    right: 0;
+    left: 32.5%;
+    top: 18%;
 }
 #container .title{
     color: lightpink;
