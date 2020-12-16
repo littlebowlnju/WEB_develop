@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>watermark</title>
+    <style>
+        body{
+            background-color: lightpink;
+            font-size: 25px;
+        }
+        img{
+            width: 500px;
+        }
+        #original-pic,#visible-wmk,#digital-wmk,#digital-wmk-pic-dec,#digital-wmk-pic-enc{
+            margin-bottom: 10px;
+        }
+        #visible-wmk-pic{
+            width: 500px;   /*与设置的图片高度相同*/
+        }
+        #digital-wmk-pic{
+            display: flex;
+        }
+        #digital-wmk-pic-enc{
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="original-pic">
+        <img src="../resource/pics/01.jpg">
+        <div class="description">不带水印的原图</div>
+    </div>
+    <div id="visible-wmk">
+        <div id="visible-wmk-pic">
+            <canvas id="visible" width="500" height="490"></canvas>
+        </div>
+        <div class="description">带可见水印的图像</div>
+    </div>
+    <div id="digital-wmk">
+        <canvas id="wmk-canvas" width="500" height="490"></canvas>
+        <div class="description">被添加的数字水印</div>
+    </div>
+    <div id="digital-wmk-pic">
+        <div id="digital-wmk-pic-enc">
+            <img src="../resource/pics/dig-wmk-pic.png">
+            <div class="description">添加了该数字水印的结果图（未解密）</div>
+        </div>
+        <div id="digital-wmk-pic-dec">
+            <img src="../resource/pics/dig-wmk-dec.png">
+            <div class="description">添加了该数字水印的结果图（解密后）</div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    /* 可见水印的实现 */
+    var oImg = new Image(); // 需要添加水印的图片
+    oImg.src = '../resource/pics/01.jpg';
+    var visible_canvas = document.getElementById('visible').getContext('2d');   // getContext返回一个用于在画布上绘图的环境
+    oImg.onload = function (){
+        visible_canvas.drawImage(oImg,0,0,500,490);
+        visible_canvas.save();
+        const txt = 'AFA粉丝站-181840096'; // 水印文字
+        visible_canvas.fillStyle = '#000';
+        visible_canvas.globalAlpha = 0.3;  // 设置水印透明度
+        visible_canvas.font = '30px serif';
+
+        // 设置水印文字位置，尽可能遮住主体部分，使得擦除水印困难
+        visible_canvas.fillText(txt,100,150);
+        visible_canvas.fillText(txt,100,250);
+        visible_canvas.fillText(txt,100,350);
+    }
+
+    /* 不可见数字水印实现 */
+    // 创建水印
+    var wmk_ctx = document.getElementById('wmk-canvas').getContext('2d');
+    wmk_ctx.font = '30px serif';
+    wmk_ctx.fillText('AFA粉丝站-181840096-黄婉红',50,130);
+    const wmkData = wmk_ctx.getImageData(0,0,wmk_ctx.canvas.width,wmk_ctx.canvas.height).data;  // 水印data
+
+    // 隐藏水印到图片的函数
+    // newData：水印data，originalData：图片data
+    const mergeData = function (ctx,newData, color, originalData) {
+        var oData = originalData.data;
+        var bit, offset;
+        switch (color) {
+            case 'R':
+                bit = 0;
+                offset = 3;
+                break;
+            case 'G':
+                bit = 1;
+                offset = 2;
+                break;
+            case 'B':
+                bit = 2;
+                offset = 1;
+                break;
+        }
+
+        for(var i = 0; i < oData.length;i++){
+            if(i%4==bit){
+                // 只处理目标通道
+                if(newData[i+offset] === 0 && (oData[i]%2 ===1)){
+                    // 没有信息的像素，该通道最低位置0
+                    if(oData[i] === 255){
+                        oData[i]--;
+                    }else{
+                        oData[i]++;
+                    }
+                }else if(newData[i+offset]!==0&&(oData[i]%2===0)){
+                    // 有信息的像素，该通道最低位置1
+                    if(oData[i]===255){
+                        oData[i]--;
+                    }else{
+                        oData[i]++;
+                    }
+                }
+            }
+        }
+        // 将结果绘制到画布
+        ctx.putImageData(originalData,0,0);
+    };
+
+    // 解密函数
+    // originalData：添加了隐藏数字水印的图片data
+    var processData = function (ctx, originalData) {
+        var data = originalData.data;
+        for (var i = 0; i < data.length; i++) {
+            if (i % 4 == 0) {
+                // R分量
+                if (data[i] % 2 == 0) {
+                    data[i] = 0;
+                } else {
+                    data[i] = 255;
+                }
+            } else if (i % 4 == 3) {
+                // alpha通道不做处理
+                continue;
+            } else {
+                // 关闭其他分量，不关闭也不影响答案
+                data[i] = 0;
+            }
+        }
+        ctx.putImageData(originalData, 0, 0);
+    }
+
+    // 对图片进行水印绘制/解密
+    var img = new Image();
+    img.src = '../resource/pics/dig-wmk-pic.png';
+    var originalData;
+    img.onload = function () {
+        wmk_ctx.drawImage(img,0,0,500,490);
+        originalData = wmk_ctx.getImageData(0,0,wmk_ctx.canvas.width,wmk_ctx.canvas.height);
+        // mergeData(wmk_ctx,wmkData,'B',originalData); //加密
+        processData(wmk_ctx,originalData);  //解密
+    }
+    img.width = 500;
+
+    // 页面水印
+    // function createWaterMark() {
+    //     const angle = -10;  // 设置水印偏转角度
+    //     const txt = 'AFA粉丝站-181840096';
+    //     const canvas = document.createElement('canvas');
+    //     canvas.width = 180;
+    //     canvas.height = 100;
+    //     const ctx = canvas.getContext('2d');    // getContext返回一个用于在画布上绘图的环境
+    //     ctx.clearRect(0,0,180,100);
+    //     ctx.fillStyle = '#000';
+    //     ctx.globalAlpha = 0.2;  // 设置水印透明度
+    //     ctx.font = '18px serif';
+    //     ctx.rotate(Math.PI/180*angle);
+    //     ctx.fillText(txt,0,50);
+    //     return canvas.toDataURL();
+    // }
+    // const watermark = document.createElement('div');    // 创建div元素watermark
+    // watermark.className = 'watermark';
+    // watermark.style.backgroundImage = `url(${createWaterMark()})`;  // watermark背景设置为先前绘制的水印
+    // const visible_wmk = document.getElementById('visible-wmk-pic');
+    // //visible_wmk.appendChild(watermark)  // watermark插入到需要插入水印的图片所在div之中
+</script>
