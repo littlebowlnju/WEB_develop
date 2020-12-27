@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="../css/LogAndReg.css">
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <style>
+        #container .agreement{
+            color: aliceblue;
+            font-size: 12px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <div class="header-logo">
+        <a href="home.html"><img src="../pics/logo.png" width="100%"></a>
+    </div>
+    <div class="header-title">
+        <h1>AFA粉丝集合站</h1>
+    </div>
+</div>
+<div id="container">
+    <div class="title">
+        REGISTER
+    </div>
+    <form id="formid" action="http://localhost:3000/register/process_register" method="POST" onsubmit="return false">
+        <div class="input">
+            <input class="email" type="text" name="email" placeholder="请输入邮箱" onchange="checkEmail()" required="required">
+            <div class="promptMsg" id="emailMsg">邮箱格式不正确</div>
+        </div>
+        <div class="input">
+            <input class="phone" type="text" name="phonenumber" placeholder="请输入手机号" onchange="checkPhone()" required="required">
+            <div class="promptMsg" id="phoneMsg">电话号码格式不正确</div>
+        </div>
+        <div class="input">
+            <input class="password" type="password" name="password" placeholder="请设置密码" onchange="checkPassword()" required="required">
+            <div class="promptMsg" id="pwdMsg">密码最少6位，至少包括一个字母、一个数字、一个特殊字符</div>
+        </div>
+        <div class="input">
+            <p style="display: flex;margin: 0 0;">
+                <input class="verification" type="text" name="vrf" id="vrf" placeholder="请输入验证码" onchange="checkVrf()" required="required"><br>
+                <canvas width="100" height="40" id="vrfCanvas"></canvas>
+                <img id="vrfImg" style="margin-left: 20px;">
+            </p>
+             <div class="promptMsg" id="vrfMsg">验证码错误</div>
+        </div>
+        <div class="agreement">
+            <input type="checkbox" class="check">
+            我已阅读相关服务条款和隐私政策
+        </div>
+        <div class="check-button">
+            <!-- <input type="submit" value="注 册"> -->
+            <input type="button" value="注 册" id="registerBtn">
+        </div>
+    </form>
+</div>
+<div class="footer">
+    Copyright &copy;littlebowlnju
+</div>
+</body>
+
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="../javascripts/drawVrfImg.js"></script>
+<script>
+function checkEmail(){
+    // 正则表达式检验邮箱格式
+    console.log("checking email");
+    var reg =  /^\w+@[a-zA-Z0-9]{2,10}(?:\.[a-z]{2,4}){1,3}$/;
+    var email = $(".email").val().trim();
+    if(!reg.test(email)){
+        console.log("email wrong");
+        document.getElementById("emailMsg").style.display="inline";
+        return false;
+    }else{
+        console.log("email right");
+        document.getElementById("emailMsg").style.display="none";
+        return true;
+    }
+};
+
+function checkPhone(){
+    // 正则表达式检验手机号码格式，只支持国内11位有效手机号码
+    console.log("checking phone number");
+    var reg =  /^[1][3,4,5,7,8][0-9]{9}$/;
+    var phonenumber = $(".phone").val().trim();
+    if(!reg.test(phonenumber)){
+        console.log("number wrong");
+        document.getElementById("phoneMsg").style.display="inline";
+        return false;
+    }else{
+        console.log("number right");
+        document.getElementById("phoneMsg").style.display="none";
+        return true;
+    }
+};
+
+function checkPassword(){
+    // 正则表达式检查密码格式
+    console.log("checking password");
+    var reg =  /^(?=.*[a-zA-Z])(?=.*\d)(?=.*?[#?!@$%^&*-_]).{6,}$/;
+    var password = $(".password").val().trim();
+    if(!reg.test(password)){
+        console.log("password wrong");
+        document.getElementById("pwdMsg").style.display="inline";
+        return false;
+    }else{
+        console.log("password right");
+        document.getElementById("pwdMsg").style.display="none";
+        return true;
+    }
+};
+
+$("#registerBtn").click(function(){
+    if(!$(".check").is(':checked')){
+        alert("请勾选已阅读服务条款和隐私政策");
+    }else{
+        if(checkEmail()&&checkPassword()&&checkPhone()&&checkVrf()){
+            var email = $(".email").val().trim();
+            var phonenumber = $(".phone").val().trim();
+            var password = $(".password").val().trim();
+            var vrf = $(".verification").val().trim();
+            $.ajax({
+                url:"http://localhost:3000/register/process_register",
+                type:"post",
+                data:{
+                    email: email,
+                    phonenumber: phonenumber,
+                    password: password,
+                    vrf: vrf
+                },
+                success: function(res){
+                    console.log(res);
+                    if(res.code == 200){
+                        location.href = 'login';
+                    }else{
+                        alert(res.msg);
+                        location.reload();
+                    }
+                }
+            })
+        }else{
+            checkEmail();
+            checkPassword();
+            checkPhone();
+            checkVrf();
+        }
+    }
+});
+</script>
+</html>

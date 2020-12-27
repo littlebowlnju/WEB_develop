@@ -1,0 +1,119 @@
+body{
+    margin: 0;
+    background-color: lightpink;
+}
+.header {
+    position: absolute;
+    top:0px;
+    min-height: auto;
+    display: flex;
+    background-color: lightpink;
+    flex-direction: row;
+}
+.header-logo{
+    width: 5%;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 5px;
+}
+.header-title{
+    text-align: center;
+    margin-top: auto;
+    margin-bottom:auto;
+    font-family: 'Adobe Caslon Pro';
+}
+#container{
+    background-color: black;
+    border-radius: 30px;
+    position: absolute;
+    width: 35%;
+    left: 32.5%;
+    top: 18%;
+}
+#container .title{
+    color: lightpink;
+    text-align: center;
+    font-size: 40px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-family: "Adobe Caslon Pro";
+    font-weight: bold;
+}
+#container form,#to-register{
+    width: 80%;
+    margin: 20px auto;
+}
+#container .input{
+    height: 40px;
+    color: azure;
+    width: 100%;
+    margin-bottom: 30px;
+}
+#container form input[type="text"],#container form input[type="password"]{
+    width: 88%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: azure;
+    padding-left: 45px;
+}
+#container form #vrf{
+    width: 80%;
+    height: 40px;
+}
+#vrfImg{
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    border-radius: 2px;
+}
+#container form input[type="button"]{
+    border-radius: 10px;
+    border: none;
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    background-color: #ffb6c1;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+#container form input[type="button"]:hover{
+    background-color:rgb(198, 219, 250);
+}
+#container .user{
+    background: url("../pics/user.svg") no-repeat center left;
+    background-size: 30px;
+    background-position: 5px;
+}
+#container .email{
+    background: url("../pics/email.svg") no-repeat center left;
+    background-size: 30px;
+    background-position: 5px;
+}
+#container .phone{
+    background: url("../pics/phone.svg") no-repeat center left;
+    background-size: 30px;
+    background-position: 5px;
+}
+#container .password{
+    background: url("../pics/lock.svg") no-repeat center left;
+    background-size: 30px;
+    background-position: 5px;
+}
+#container .verification{
+    background: url("../pics/验证码.svg") no-repeat center left;
+    background-size: 30px;
+    background-position: 5px;
+}
+#container .promptMsg{
+    color: rgb(255, 81, 81);
+    font-size: 13px;
+    display: none;
+}
+.footer{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    text-align: center;
+}
