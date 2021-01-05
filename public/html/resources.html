@@ -22,7 +22,7 @@
             width: 80%;
             margin-left:auto;
             margin-right: auto;
-            column-count: 3;
+            column-count: 2;
             column-gap: 20px;
         }
         #picBox .pic{
@@ -41,13 +41,11 @@
             margin-left: auto;
             margin-right: auto;
         }
-        #videoBox{
-            column-count: 3;
-            column-gap: 20px;
-        }
         #videoBox .video {
-            width: 400px;
-            height: 300px;
+            text-align: center;
+        }
+        #videoBox video{
+            width: 80%;
         }
         #audioBox .audio{
             display: flex;
@@ -65,23 +63,27 @@
     <h1 style="margin-top: auto;margin-bottom:auto;font-family: 'Adobe Caslon Pro'">AFA粉丝集合站</h1>
     <div id="nav">
         <ul>
-            <li><a href="home.html">首页</a></li>
-            <li><a href="resources.html">资源</a></li>
+            <li><a href="./home.html">首页</a></li>
+            <li><a href="./resources.html">资源</a></li>
             <li><a href="#">讨论区</a></li>
         </ul>
     </div>
     <div id="to-login">
-        <a href="login.html">登 录</a>
+        <a href="./login.html">登 录</a>
     </div>
 </div>
 <div class="title">
     图片
 </div>
 <div id="picBox">
-    <div class="pic"><img src="../resource/pics/01.jpg"></div>
-    <div class="pic"><img src="../resource/pics/02.jpg"></div>
-    <div class="pic"><img src="../resource/pics/03.jpg"></div>
-    <div class="pic"><img src="../resource/pics/04.jpg"></div>
+    <div class="pic"><img src="../pics/loading.svg" data-url="../resource/pics/01.jpg"></div>
+    <div class="pic"><img src="../pics/loading.svg" data-url="../resource/pics/02.jpg"></div>
+    <div class="pic"><img src="../pics/loading.svg" data-url="../resource/pics/03.jpg"></div>
+    <div class="pic"><img src="../pics/loading.svg" data-url="../resource/pics/04.jpg"></div>
+    <div class="pic"><img src="../pics/loading.svg" data-url="../resource/pics/05.jpg"></div>
+    <div class="pic"><img src="../pics/loading.svg" data-url="../resource/pics/06.jpg"></div>
+    <div class="pic"><img src="../pics/loading.svg" data-url="../resource/pics/07.jpg"></div>
+    <div class="pic"><img src="../pics/loading.svg" data-url="../resource/pics/08.jpg"></div>
     <div class="more">
         <a href="watermark.html" style="display: block;font-size: 25px;color:black;font-weight:bold;text-decoration: none">
             <img src="../pics/more+.svg" style="display: block;width: 200px;margin-bottom: 15px">查看更多</a>
@@ -91,29 +93,29 @@
     视频
 </div>
 <div id="videoBox">
-    <div class="video">
-        <video width="400" height="200" controls>
+    <!-- <div class="video">
+        <video controls preload="none">
             <source src="../resource/video/34+35%20mv.mp4" type="video/mp4">
         </video>
         <div style="text-align: center">34+35 MV首播</div>
     </div>
     <div class="video">
-        <video width="400" height="200" controls>
+        <video controls preload="none">
             <source src="../resource/video/oh!santa.mp4" type="video/mp4">
         </video>
         <div style="text-align: center">oh!Santa MV首播</div>
     </div>
     <div class="video">
-        <video width="400" height="200" controls>
+        <video controls preload="none">
             <source src="../resource/video/Positions%20中英字幕mv.mp4" type="video/mp4">
         </video>
         <div style="text-align: center">Positions 中英字幕MV首播</div>
-    </div>
+    </div> -->
 </div>
 <div class="title">
     音频
 </div>
-<div id="audioBox">
+<!-- <div id="audioBox">
     <div class="audio">
         <audio controls>
             <source src="../resource/audio/shut%20up(Explicit).mp3" type="audio/mpeg">
@@ -126,9 +128,59 @@
         </audio>
         <div class="audio-title"> 34+35(Explicit) </div>
     </div>
-</div>
+</div> -->
 <div class="footer">
     Copyright &copy;littlebowlnju
 </div>
 </body>
+
+<script>
+// onload是等所有的资源文件加载完毕以后再绑定事件
+window.onload = function(){
+	// 获取图片列表，即img标签列表
+	var imgs = document.getElementsByTagName('img');
+
+	// 获取元素到浏览器顶部的距离
+	function getTop(e){
+		return e.offsetTop;
+	}
+
+	// 懒加载实现
+	function loadImg(imgs){
+		// 可视区域高度
+		var h = window.innerHeight;
+		//滚动区域高度
+		var s = document.documentElement.scrollTop || document.body.scrollTop;
+		for(var i = 0;i < imgs.length;i++){
+			//图片距离顶部的距离大于可视区域和滚动区域之和时懒加载
+			if ((h+s)>getTop(imgs[i])) {
+				// 页面开始有1秒空白，所以使用setTimeout定时1s
+				(function(i){
+					setTimeout(function(){
+						// 不加立即执行函数i会等于9
+						// 隐形加载图片，创建一个临时图片，这个图片在内存中不会到页面上去。实现隐形加载
+                        var tmp = new Image();
+                        // 确认获取的data-url属性值不为null后才加载
+                        if(imgs[i].getAttribute('data-url')){
+                            tmp.src = imgs[i].getAttribute('data-url');//只会请求一次
+                        }
+						// onload判断图片加载完毕，真实图片加载完毕，再赋值给dom节点
+						tmp.onload = function(){
+							// 获取自定义属性url，替换图片
+							imgs[i].src = imgs[i].dataset.url
+						}
+					},1000)
+				})(i)
+			}
+		}
+	}
+	loadImg(imgs);
+
+	// 滚屏函数
+	window.onscroll = function(){
+		loadImg(imgs);
+	}
+}
+</script>
+
 </html>

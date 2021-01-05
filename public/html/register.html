@@ -133,7 +133,8 @@ $("#registerBtn").click(function(){
                 success: function(res){
                     console.log(res);
                     if(res.code == 200){
-                        location.href = 'login';
+                        alert("注册成功");
+                        window.location.href = 'login';
                     }else{
                         alert(res.msg);
                         location.reload();

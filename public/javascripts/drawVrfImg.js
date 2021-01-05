@@ -42,11 +42,12 @@ var nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", 'A', 'B', 'C', 'D'
         return rand;
     }
 
+    // 验证用户输入验证码是否正确
     function checkVrf(){
-        var newRand=rand.join('').toUpperCase();
+        var newRand=rand.join('').toUpperCase(); // 不区分大小写
         console.log(newRand);
 
-        var inputVrf = $('#vrf').val().toUpperCase();
+        var inputVrf = $('#vrf').val().toUpperCase();   // 不区分大小写
         console.log(inputVrf);
         if (inputVrf != newRand) {
             console.log("verification wrong");
@@ -100,6 +101,7 @@ var nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", 'A', 'B', 'C', 'D'
         return image;
     }
 
+    // 点击切换验证码
     document.getElementById('vrfImg').onclick = function () {
         $('#vrfCanvas').remove();
         $('#vrf').after('<canvas width="100" height="40" id="vrfCanvas"></canvas>')
